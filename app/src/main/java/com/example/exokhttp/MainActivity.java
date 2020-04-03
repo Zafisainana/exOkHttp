@@ -26,12 +26,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    txtReponse = findViewById(R.id.txtReponse);
+   // txtReponse = findViewById(R.id.txtReponse);
+
     Button btnServiceWeb = findViewById(R.id.btnServiceWeb);
 
     btnServiceWeb.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            /* Appel du service web via une tache asynchrone - appel d'un thread en tache de fond*/
             AsyncCallWS asyncCallWS = new AsyncCallWS();
             asyncCallWS.execute();
         }
@@ -56,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String retourServiceWeb){
             super.onPostExecute(retourServiceWeb);
             txtReponse.setText(retourServiceWeb);
-
 
         }
     }
