@@ -2,6 +2,7 @@ package com.example.exokhttp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.textclassifier.TextLinks;
@@ -34,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private class AsyncCallWS extends AsyncTask<String,Integer,String>
+    {
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+    }
+
     private void callServiceWeb()
     {
         String url="http://www.claudehenry.fr/serviceweb/bonjour";
@@ -59,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (Exception ex)
         {
-
+            String message = ex.getMessage();
         }
 
     }
