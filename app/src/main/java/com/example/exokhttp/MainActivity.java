@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.textclassifier.TextLinks;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -29,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     btnServiceWeb.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            callServiceWeb();
+            AsyncCallWS asyncCallWS = new AsyncCallWS();
+            asyncCallWS.execute();
         }
     });
 
@@ -38,41 +42,55 @@ public class MainActivity extends AppCompatActivity {
 
     private class AsyncCallWS extends AsyncTask<String,Integer,String>
     {
+        @Override
+        protected void onPreExecute(){super.onPreExecute();}
 
 
         @Override
         protected String doInBackground(String... strings) {
-            return null;
+            return callServiceWeb();
+
+        }
+
+        @Override
+        protected void onPostExecute(String retourServiceWeb){
+            super.onPostExecute(retourServiceWeb);
+            txtReponse.setText(retourServiceWeb);
+
+
         }
     }
 
-    private void callServiceWeb()
+    private String callServiceWeb()
     {
         String url="http://www.claudehenry.fr/serviceweb/bonjour";
         /* on instancie notre objet okthhp*/
         OkHttpClient client = new OkHttpClient();
+        String retourServiceWeb ="";
 
         /* appel get
         HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();*/
 
         /* on créé la demande à partir de l'url*/
-        Request request =   new Request.Builder()
-                .url(url)
-                .build();
+        Request request =   new Request.Builder().url(url).build();
 
         try {
             /*on ontient la reponse*/
             Response response = client.newCall(request).execute();
 
             if(response.isSuccessful()){
-                String retour = response.body().string();
-                txtReponse.setText(retour);
+                retourServiceWeb = response.body().string();
+
             }
         }
         catch (Exception ex)
         {
-            String message = ex.getMessage();
+            retourServiceWeb = ex.getMessage();
         }
 
+        return retourServiceWeb;
+
     }
+
+
 }
